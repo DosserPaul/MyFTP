@@ -1,5 +1,9 @@
 *.o
 a.out
+myftp
+client
+server
+
 
 .idea
-test/
+tests
