@@ -9,8 +9,8 @@
 
 bool is_logged(client_t *client)
 {
-    if (client->logged)
+    if (client->is_logged)
         return true;
-    dprintf(client->fd, "530 Please login with USER and PASS.\r\n");
+    dprintf(client->client_fd, "530 Please login with USER and PASS.\r\n");
     return false;
 }
