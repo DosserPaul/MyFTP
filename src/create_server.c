@@ -37,3 +37,6 @@ server_t *create_server(server_t *server)
 
     return server;
 }
+
+
+//LIST - RETR - STORE needs to use fork() to create a new process
