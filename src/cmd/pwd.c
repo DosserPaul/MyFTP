@@ -7,11 +7,18 @@
 
 #include "../../includes/myftp.h"
 
-void pwd(client_t *client)
+client_t *pwd(client_t *client, char *cmd)
 {
     if (!is_logged(client))
-        return;
+        return client;
+
+    if(cmd == NULL) {
+        dprintf(client->client_fd, "550 No such file or directory.\n");
+        return client;
+    }
 
     dprintf(client->client_fd, "257 \"%s\" is the current directory.\r\n",
         client->path);
+
+    return client;
 }

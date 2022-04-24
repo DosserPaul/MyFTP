@@ -7,7 +7,12 @@
 
 #include "../../includes/myftp.h"
 
-void noop(client_t *client)
+client_t *noop(client_t *client, char *cmd)
 {
+    if (cmd == NULL)
+        return client;
+
     dprintf(client->client_fd, "200 NOOP command successful.\r\n");
+
+    return client;
 }

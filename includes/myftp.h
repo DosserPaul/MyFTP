@@ -18,31 +18,55 @@
 #include <arpa/inet.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <dirent.h>
 
 typedef struct server {
-    // port number
     int port;
-    // socket file descriptor
     int server_fd;
-    int client_fd;
-    // server data structure for socket
+//    int client_fd;
     struct sockaddr_in server_addr;
-    struct sockaddr_in client_addr;
-    // size of the data structure
-    int server_len;
-    int client_len;
-    char buffer[1024];
+    int addr_size;
+    char *path;
 } server_t;
 
 typedef struct client {
     int client_fd;
-    int client_len;
     struct sockaddr_in client_addr;
+    int addr_size;
+    char *path;
+    char *original_path;
+    bool user;
+    bool is_logged;
 } client_t;
+
+typedef struct command {
+    char *command;
+    client_t *(*func)(client_t *client, char *cmd);
+} command_t;
 
 server_t *create_server(server_t *server);
 int check_error(int nb, const char *str);
 void loop_connection(server_t server);
 void loop(server_t *server);
+client_t *pointer(char *cmd, client_t *client);
+
+char **cmd_to_array(char *cmd);
+int get_array_size(char **array);
+char *my_strcat(char *dest, char *src);
+
+void free_2d_array(char **array);
+void free_server(server_t *server);
+void free_client(client_t *client);
+
+// CMD
+bool is_logged(client_t *client);
+client_t *noop(client_t *client, char *cmd);
+client_t *pwd(client_t *client, char *cmd);
+client_t *user(client_t *client, char *cmd);
+client_t *pass(client_t *client, char *cmd);
+client_t *help(client_t *client, char *cmd);
+
+client_t *cwd(client_t *client, char *cmd);
+client_t *cdup(client_t *client, char *cmd);
 
 #endif //MYFTP_MYFTP_H
