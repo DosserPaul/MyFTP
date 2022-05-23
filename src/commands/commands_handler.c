@@ -10,6 +10,7 @@
 commands_t commands[] = {
         {"USER", &user},
         {"PASS", &pass},
+        {"CWD", &cwd},
         {"PWD", &pwd},
         {"HELP", &help},
         {"NOOP", &noop}
@@ -24,7 +25,6 @@ client_t *command_handler(client_t *client, char *command)
     for (size_t i = 0; commands[i].name; i++) {
         if (strcmp(array[0], commands[i].name) == 0) {
             client = commands[i].func(client, array);
-            client->test++;
             free_split(array);
             return client;
         }

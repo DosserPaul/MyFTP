@@ -49,7 +49,6 @@
         char *original_path;
         bool user;
         bool pass;
-        int test;
     };
 
     struct commands {
@@ -72,5 +71,6 @@ client_t *pass(client_t *client, char **array);
 client_t *noop(client_t *client, char **cmd);
 client_t *help(client_t *client, char **cmd);
 client_t *pwd(client_t *client, char **cmd);
+client_t *cwd(client_t *client, char **cmd);
 
 #endif //MYFTP_MYFTP_H

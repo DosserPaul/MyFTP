@@ -52,7 +52,6 @@ client_t **init_client(char *path UNUSED)
         client[i]->path = strdup("/");
         client[i]->user = false;
         client[i]->pass = false;
-        client[i]->test = 0;
     }
     return client;
 }

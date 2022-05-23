@@ -43,6 +43,8 @@ static bool check_path(char *path)
     return true;
 }
 
+// TODO: remove UNUSED
+UNUSED
 static bool is_arg_valid(int argc, char **argv)
 {
     if (argc != 3) {
@@ -78,16 +80,18 @@ int main(int ac UNUSED, char **av UNUSED)
 {
     if (ac > 1 && strcmp(av[1], "-help") == 0)
         display_usage();
-
-    if (!is_arg_valid(ac, av))
-        return 84;
+//
+//    if (!is_arg_valid(ac, av))
+//        return 84;
 
 
     server_t *server = create_server(atoi(av[1]));
     if (!server)
         return 84;
 
-    loop(server, get_path(av[2]));
+    // TODO: change this
+//    loop(server, get_path(av[2]));
+    loop(server, ".");
 
     return 0;
 }
