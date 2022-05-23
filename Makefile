@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-NAME		 	=	myteams_server
+NAME		 	=	myftp
 
 INCLUDES		= 	-I includes/
 
@@ -55,7 +55,6 @@ start: build_msg $(OBJ)
 	@gcc -o $(NAME) $(OBJ) $(CFLAGS) $(LDFLAGS) &&		\
 	(echo "$(PRINT_NAME) $(MAGENTA)Building successful$(RESET)") ||	\
 	(echo "$(PRINT_NAME) $(RED)Building failed$(RESET)")
-	@$(MV) $(NAME) ../
 
 build_msg:
 	@echo "$(PRINT_NAME) $(MAGENTA)Compiling files... $(RESET)"
