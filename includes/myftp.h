@@ -24,6 +24,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <dirent.h>
 
     typedef struct client_fd client_fd_t;
     typedef struct server server_t;
