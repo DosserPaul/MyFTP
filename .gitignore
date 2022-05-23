@@ -1,9 +1,0 @@
-*.o
-a.out
-myftp
-client
-server
-
-
-.idea
-tests
