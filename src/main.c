@@ -64,10 +64,24 @@ static bool is_arg_valid(int argc, char **argv)
     return true;
 }
 
+NORETURN void display_usage(void)
+{
+    printf("Usage: ./myftp port path\n");
+    printf("\tport  is the port number on which the server socket ");
+    printf("listens\n");
+    printf("\tpath  is the path to the home directory for the Anonymous ");
+    printf("user\n");
+    exit(84);
+}
+
 int main(int ac UNUSED, char **av UNUSED)
 {
+    if (ac > 1 && strcmp(av[1], "-help") == 0)
+        display_usage();
+
     if (!is_arg_valid(ac, av))
         return 84;
+
 
     server_t *server = create_server(atoi(av[1]));
     if (!server)
