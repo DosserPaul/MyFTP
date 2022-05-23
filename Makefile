@@ -25,6 +25,7 @@ SRC				+=	$(COMMANDS_PATH)commands_handler.c		\
 					$(COMMANDS_PATH)pass.c					\
 					$(COMMANDS_PATH)noop.c					\
 					$(COMMANDS_PATH)help.c					\
+					$(COMMANDS_PATH)pwd.c					\
 
 OBJ 			= 	$(SRC:.c=.o)
 

@@ -7,7 +7,7 @@
 
 #include "myftp.h"
 
-int count_words(char **array)
+static int count_words(char **array)
 {
     int i = 0;
 

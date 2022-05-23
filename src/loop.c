@@ -48,8 +48,8 @@ client_t **init_client(char *path UNUSED)
 
     for (size_t i = 0; i < FD_SETSIZE; i++) {
         client[i] = malloc(sizeof(client_t));
-        client[i]->original_path = strdup(".");
-        client[i]->path = strdup(".");
+        client[i]->original_path = strdup(path);
+        client[i]->path = strdup("/");
         client[i]->user = false;
         client[i]->pass = false;
         client[i]->test = 0;
