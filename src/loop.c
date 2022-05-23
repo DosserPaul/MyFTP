@@ -57,7 +57,7 @@ static void client_action(client_fd_t *client_fd, fd_set *readfds)
     }
 }
 
-int loop(server_t *server)
+int loop(server_t *server, char *path UNUSED)
 {
     client_fd_t *client = malloc(sizeof(client_fd_t));
     fd_set readfds;

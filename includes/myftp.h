@@ -56,7 +56,7 @@
     };
 
 server_t *create_server(int port);
-int loop(server_t *server);
+int loop(server_t *server, char *path);
 void client_handler(int fd);
 int check_error(int nb, const char *str);
 char **split(char *str, const char *delim);

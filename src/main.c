@@ -9,6 +9,13 @@
 
 int main(int ac UNUSED, char **av UNUSED)
 {
-    printf("Hello World\n");
+    // TODO: check args
+    server_t *server = create_server(atoi(av[1]));
+
+    // TODO: add path
+//    loop(server, av[2]);
+    loop(server, ".");
+//    loop(server, "/src");
+
     return 0;
 }

@@ -65,9 +65,9 @@ char **split(char *str, const char *delim)
         tmp = strtok(NULL, delim);
         i++;
     }
-    int nb_words = get_nb_words(str, delim[0]);
-    char *tmp2 = array[nb_words - 1];
-    array[nb_words - 1][strlen(tmp2) - 1] = '\0';
+//    int nb_words = get_nb_words(str, delim[0]);
+//    char *tmp2 = array[nb_words - 1];
+//    array[nb_words - 1][strlen(tmp2) - 1] = '\0';
 
     free(tmp);
     free(cpy);
