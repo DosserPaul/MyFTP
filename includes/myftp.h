@@ -68,5 +68,6 @@ client_t *command_handler(client_t *client, char *command);
 bool is_logged(client_t *client);
 client_t *user(client_t *client, char **array);
 client_t *pass(client_t *client, char **array);
+client_t *noop(client_t *client, char **cmd);
 
 #endif //MYFTP_MYFTP_H

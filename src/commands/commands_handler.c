@@ -9,7 +9,8 @@
 
 commands_t commands[] = {
         {"USER", &user},
-        {"PASS", &pass}
+        {"PASS", &pass},
+        {"NOOP", &noop}
 };
 
 
