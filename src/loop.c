@@ -23,7 +23,6 @@ static void new_fd(client_fd_t *client, fd_set *readfds)
     check_error(select_ret, "[-]Select()");
 }
 
-UNUSED
 static void check_accept(client_fd_t *client, fd_set *readfds, int server_fd)
 {
     socklen_t addr_len = sizeof(client->addr);
@@ -43,24 +42,38 @@ static void check_accept(client_fd_t *client, fd_set *readfds, int server_fd)
     }
 }
 
-// TODO: change this function
-UNUSED
-static void client_action(client_fd_t *client_fd, fd_set *readfds)
+client_t **init_client(char *path UNUSED)
+{
+    client_t **client = malloc(sizeof(client_t *) * FD_SETSIZE);
+
+    for (size_t i = 0; i < FD_SETSIZE; i++) {
+        client[i] = malloc(sizeof(client_t));
+        client[i]->original_path = strdup(".");
+        client[i]->path = strdup(".");
+        client[i]->user = false;
+        client[i]->pass = false;
+        client[i]->test = 0;
+    }
+    return client;
+}
+
+static void client_action(client_fd_t *client_fd, fd_set *readfds, client_t **c)
 {
     int tmp;
 
     for (size_t i = 0; i < FD_SETSIZE; i++) {
         tmp = client_fd->fd[i];
         if (FD_ISSET(tmp, readfds)) {
-            client_handler(tmp);
+            client_handler(tmp, c[i]);
         }
     }
 }
 
-int loop(server_t *server, char *path UNUSED)
+int loop(server_t *server, char *path)
 {
     client_fd_t *client = malloc(sizeof(client_fd_t));
     fd_set readfds;
+    client_t  **clients = init_client(path);
 
     for (size_t i = 0; i < FD_SETSIZE; i++)
         client->fd[i] = 0;
@@ -71,6 +84,6 @@ int loop(server_t *server, char *path UNUSED)
         client->max_fd = server->fd;
         new_fd(client, &readfds);
         check_accept(client, &readfds, server->fd);
-        client_action(client, &readfds);
+        client_action(client, &readfds, clients);
     }
 }

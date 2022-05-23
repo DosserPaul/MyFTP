@@ -48,6 +48,7 @@
         char *original_path;
         bool user;
         bool pass;
+        int test;
     };
 
     struct commands {
@@ -57,12 +58,15 @@
 
 server_t *create_server(int port);
 int loop(server_t *server, char *path);
-void client_handler(int fd);
+void client_handler(int fd, client_t *client);
 int check_error(int nb, const char *str);
 char **split(char *str, const char *delim);
 void free_split(char **array);
 
 // Commands
 client_t *command_handler(client_t *client, char *command);
+bool is_logged(client_t *client);
+client_t *user(client_t *client, char **array);
+client_t *pass(client_t *client, char **array);
 
 #endif //MYFTP_MYFTP_H

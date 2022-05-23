@@ -19,7 +19,10 @@ SRC				=	$(SRC_PATH)main.c						\
 					$(SRC_PATH)client_handler.c				\
 					$(SRC_PATH)split.c						\
 
-SRC				+= $(COMMANDS_PATH)commands_handler.c
+SRC				+=	$(COMMANDS_PATH)commands_handler.c		\
+					$(COMMANDS_PATH)is_logged.c				\
+					$(COMMANDS_PATH)user.c					\
+					$(COMMANDS_PATH)pass.c					\
 
 OBJ 			= 	$(SRC:.c=.o)
 
