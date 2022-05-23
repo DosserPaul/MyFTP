@@ -7,42 +7,7 @@
 
 #include "myftp.h"
 
-static void new_fd(client_fd_t *client, fd_set *readfds)
-{
-    int tmp;
-    int select_ret;
-
-    for (size_t i = 0; i < FD_SETSIZE; i++) {
-        tmp = client->fd[i];
-        if (tmp > 0)
-            FD_SET(tmp, readfds);
-        if (tmp > client->max_fd)
-            client->max_fd = tmp;
-    }
-    select_ret = select(FD_SETSIZE + 1, readfds, NULL, NULL, NULL);
-    check_error(select_ret, "[-]Select()");
-}
-
-static void check_accept(client_fd_t *client, fd_set *readfds, int server_fd)
-{
-    socklen_t addr_len = sizeof(client->addr);
-    int new_fd;
-
-    if (FD_ISSET(server_fd, readfds)) {
-        new_fd = accept(server_fd, (struct sockaddr *)&client->addr, &addr_len);
-        check_error(new_fd, "[-]Accept()");
-        printf("[+]New client connected\n");
-        dprintf(new_fd, "Welcome to the server\n");
-        for (size_t i = 0; i < FD_SETSIZE; i++) {
-            if (client->fd[i] == 0) {
-                client->fd[i] = new_fd;
-                break;
-            }
-        }
-    }
-}
-
-client_t **init_client(char *path UNUSED)
+static client_t **init_client(char *path)
 {
     client_t **client = malloc(sizeof(client_t *) * FD_SETSIZE);
 
@@ -52,37 +17,61 @@ client_t **init_client(char *path UNUSED)
         client[i]->path = strdup("/");
         client[i]->user = false;
         client[i]->pass = false;
+        client[i]->is_closed = false;
     }
     return client;
 }
 
-static void client_action(client_fd_t *client_fd, fd_set *readfds, client_t **c)
+int accept_new_connection(int server_fd)
 {
-    int tmp;
+    UNUSED int client_fd;
+    struct sockaddr_in client_addr;
+    socklen_t client_len = sizeof(client_addr);
 
-    for (size_t i = 0; i < FD_SETSIZE; i++) {
-        tmp = client_fd->fd[i];
-        if (FD_ISSET(tmp, readfds)) {
-            client_handler(tmp, c[i]);
+    client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &client_len);
+    if (client_fd < 0) {
+        perror("accept");
+        exit(84);
+    }
+    printf("[#] Client[%d] connected\n", client_fd);
+    return client_fd;
+}
+
+void new_fd(server_t *server, int i, client_t *client)
+{
+    int new;
+
+    if (FD_ISSET(i, &server->read_fds)) {
+        if (i == server->fd) {
+            new = accept_new_connection(server->fd);
+            FD_SET(new, &server->master);
+            if (new > server->max_fd)
+                server->max_fd = new;
+        } else {
+            client_handler(server, i, client);
         }
     }
 }
 
 int loop(server_t *server, char *path)
 {
-    client_fd_t *client = malloc(sizeof(client_fd_t));
-    fd_set readfds;
-    client_t  **clients = init_client(path);
-
-    for (size_t i = 0; i < FD_SETSIZE; i++)
-        client->fd[i] = 0;
-
+    int select_ret;
+    FD_ZERO(&server->master);
+    FD_ZERO(&server->read_fds);
+    FD_SET(server->fd, &server->master);
+    server->max_fd = server->fd;
+    client_t **client = init_client(path);
     while (true) {
-        FD_ZERO(&readfds);
-        FD_SET(server->fd, &readfds);
-        client->max_fd = server->fd;
-        new_fd(client, &readfds);
-        check_accept(client, &readfds, server->fd);
-        client_action(client, &readfds, clients);
+        server->read_fds = server->master;
+        select_ret = select(server->max_fd + 1, &server->read_fds, NULL, NULL, NULL);
+        check_error(select_ret, "[-]Select(): ");
+
+        printf("[#] Select returned: %d\n", select_ret);
+        printf("[#] Max FD: %d\n", server->max_fd);
+
+        for (int i = 0; i <= server->max_fd; i++) {
+            new_fd(server, i, client[i]);
+        }
+
     }
 }

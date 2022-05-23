@@ -35,12 +35,16 @@
         int fd[FD_SETSIZE];
         struct sockaddr_in addr;
         int max_fd;
+        fd_set master;
     };
 
     struct server {
         int port;
         int fd;
         struct sockaddr_in addr;
+        int max_fd;
+        fd_set master;
+        fd_set read_fds;
     };
 
     struct client {
@@ -49,6 +53,7 @@
         char *original_path;
         bool user;
         bool pass;
+        bool is_closed;
     };
 
     struct commands {
@@ -58,7 +63,7 @@
 
 server_t *create_server(int port);
 int loop(server_t *server, char *path);
-void client_handler(int fd, client_t *client);
+void client_handler(server_t *server, int fd, client_t *client);
 int check_error(int nb, const char *str);
 char **split(char *str, const char *delim);
 void free_split(char **array);
@@ -73,5 +78,6 @@ client_t *help(client_t *client, char **cmd);
 client_t *pwd(client_t *client, char **cmd);
 client_t *cwd(client_t *client, char **cmd);
 client_t *cdup(client_t *client, char **cmd);
+client_t *quit(client_t *client, char **cmd);
 
 #endif //MYFTP_MYFTP_H
