@@ -27,6 +27,7 @@ SRC				+=	$(COMMANDS_PATH)commands_handler.c		\
 					$(COMMANDS_PATH)help.c					\
 					$(COMMANDS_PATH)pwd.c					\
 					$(COMMANDS_PATH)cwd.c					\
+					$(COMMANDS_PATH)cdup.c					\
 
 OBJ 			= 	$(SRC:.c=.o)
 

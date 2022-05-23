@@ -72,5 +72,6 @@ client_t *noop(client_t *client, char **cmd);
 client_t *help(client_t *client, char **cmd);
 client_t *pwd(client_t *client, char **cmd);
 client_t *cwd(client_t *client, char **cmd);
+client_t *cdup(client_t *client, char **cmd);
 
 #endif //MYFTP_MYFTP_H
