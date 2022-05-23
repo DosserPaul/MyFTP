@@ -8,7 +8,8 @@
 #include "myftp.h"
 
 commands_t commands[] = {
-        {"USER", &user}
+        {"USER", &user},
+        {"PASS", &pass}
 };
 
 
