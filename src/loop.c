@@ -22,7 +22,7 @@ static client_t **init_client(char *path)
     return client;
 }
 
-int accept_new_connection(int server_fd)
+static int accept_new_connection(int server_fd)
 {
     UNUSED int client_fd;
     struct sockaddr_in client_addr;
@@ -37,7 +37,7 @@ int accept_new_connection(int server_fd)
     return client_fd;
 }
 
-void new_fd(server_t *server, int i, client_t *client)
+static void new_fd(server_t *server, int i, client_t *client)
 {
     int new;
 
@@ -53,25 +53,30 @@ void new_fd(server_t *server, int i, client_t *client)
     }
 }
 
+static void init_loop(server_t *server)
+{
+    FD_ZERO(&server->master);
+    FD_ZERO(&server->read_fds);
+
+    FD_SET(server->fd, &server->master);
+
+    server->max_fd = server->fd;
+}
+
 int loop(server_t *server, char *path)
 {
     int select_ret;
-    FD_ZERO(&server->master);
-    FD_ZERO(&server->read_fds);
-    FD_SET(server->fd, &server->master);
-    server->max_fd = server->fd;
     client_t **client = init_client(path);
+    init_loop(server);
+
     while (true) {
         server->read_fds = server->master;
-        select_ret = select(server->max_fd + 1, &server->read_fds, NULL, NULL, NULL);
+        select_ret = select(server->max_fd + 1, &server->read_fds, NULL,
+                            NULL, NULL);
         check_error(select_ret, "[-]Select(): ");
-
-        printf("[#] Select returned: %d\n", select_ret);
-        printf("[#] Max FD: %d\n", server->max_fd);
 
         for (int i = 0; i <= server->max_fd; i++) {
             new_fd(server, i, client[i]);
         }
-
     }
 }

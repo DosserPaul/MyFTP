@@ -12,17 +12,20 @@ commands_t commands[] = {
         {"PASS", &pass},
         {"CWD", &cwd},
         {"CDUP", &cdup},
-        {"QUIT", &quit},
         {"PWD", &pwd},
         {"HELP", &help},
         {"NOOP", &noop}
 };
 
 
-client_t *command_handler(client_t *client, char *command)
+client_t *command_handler(client_t *client, char *command, fd_set *master)
 {
     strtok(command, "\r\n");
     char **array = split(command, " ");
+
+    if (strcmp(array[0], "QUIT") == 0) {
+        quit(client, master);
+    }
 
     for (size_t i = 0; commands[i].name; i++) {
         if (strcmp(array[0], commands[i].name) == 0) {

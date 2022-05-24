@@ -54,6 +54,7 @@
         bool user;
         bool pass;
         bool is_closed;
+        fd_set master;
     };
 
     struct commands {
@@ -69,7 +70,7 @@ char **split(char *str, const char *delim);
 void free_split(char **array);
 
 // Commands
-client_t *command_handler(client_t *client, char *command);
+client_t *command_handler(client_t *client, char *command, fd_set *master);
 bool is_logged(client_t *client);
 client_t *user(client_t *client, char **array);
 client_t *pass(client_t *client, char **array);
@@ -78,6 +79,6 @@ client_t *help(client_t *client, char **cmd);
 client_t *pwd(client_t *client, char **cmd);
 client_t *cwd(client_t *client, char **cmd);
 client_t *cdup(client_t *client, char **cmd);
-client_t *quit(client_t *client, char **cmd);
+client_t *quit(client_t *client, fd_set *master);
 
 #endif //MYFTP_MYFTP_H
