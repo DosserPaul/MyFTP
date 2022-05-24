@@ -33,7 +33,6 @@ static int accept_new_connection(int server_fd)
         perror("accept");
         exit(84);
     }
-    printf("[#] Client[%d] connected\n", client_fd);
     return client_fd;
 }
 
