@@ -48,6 +48,7 @@ static void new_fd(server_t *server, int i, client_t *client)
             FD_SET(new, &server->master);
             if (new > server->max_fd)
                 server->max_fd = new;
+            dprintf(new, "220 Welcome to MyFTP\r\n");
         } else {
             client_handler(server, i, client);
         }

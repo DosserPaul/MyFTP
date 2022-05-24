@@ -9,10 +9,6 @@
 
 void client_handler(server_t *server, int fd, client_t *client)
 {
-    if (!client->welcome) {
-        dprintf(fd, "220 Welcome to MyFTP\r\n");
-        client->welcome = true;
-    }
     char buffer[BUFSIZ];
     client->fd = fd;
 
