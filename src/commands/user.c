@@ -13,9 +13,10 @@ client_t *user(client_t *client, char **cmd)
         dprintf(client->fd, "530 Already logged in.\r\n");
         return client;
     }
-
-    if (cmd[1] == NULL)
+    if (cmd[1] == NULL) {
+        dprintf(client->fd, "530 Please specify the username.\r\n");
         return client;
+    }
 
     if (strcmp("Anonymous", cmd[1]) == 0) {
         dprintf(client->fd, "331 User name okay, need password.\r\n");
