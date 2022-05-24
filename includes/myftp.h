@@ -25,6 +25,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <dirent.h>
+#include <signal.h>
 
     typedef struct client_fd client_fd_t;
     typedef struct server server_t;
@@ -68,6 +69,7 @@
     int check_error(int nb, const char *str);
     char **split(char *str, const char *delim);
     void free_split(char **array);
+    void free_clients(client_t **clients);
 
     // Commands
     client_t *command_handler(client_t *client, char *command, fd_set *master);
