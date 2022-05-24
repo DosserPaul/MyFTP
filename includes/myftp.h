@@ -80,5 +80,6 @@ client_t *pwd(client_t *client, char **cmd);
 client_t *cwd(client_t *client, char **cmd);
 client_t *cdup(client_t *client, char **cmd);
 client_t *quit(client_t *client, fd_set *master);
+client_t *delete(client_t *client, char **cmd);
 
 #endif //MYFTP_MYFTP_H
