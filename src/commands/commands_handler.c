@@ -18,7 +18,6 @@ commands_t commands[] = {
         {"NOOP", &noop}
 };
 
-
 client_t *command_handler(client_t *client, char *command, fd_set *master)
 {
     strtok(command, "\r\n");

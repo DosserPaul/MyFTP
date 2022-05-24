@@ -28,7 +28,8 @@ static int accept_new_connection(int server_fd)
     struct sockaddr_in client_addr;
     socklen_t client_len = sizeof(client_addr);
 
-    client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &client_len);
+    client_fd = accept(server_fd, (struct sockaddr *)&client_addr,
+                &client_len);
     if (client_fd < 0) {
         perror("accept");
         exit(84);

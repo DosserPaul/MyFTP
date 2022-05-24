@@ -29,7 +29,7 @@ SRC				+=	$(COMMANDS_PATH)commands_handler.c		\
 					$(COMMANDS_PATH)cwd.c					\
 					$(COMMANDS_PATH)cdup.c					\
 					$(COMMANDS_PATH)quit.c					\
-					$(COMMANDS_PATH)delete.c					\
+					$(COMMANDS_PATH)delete.c				\
 
 OBJ 			= 	$(SRC:.c=.o)
 

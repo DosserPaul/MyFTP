@@ -16,8 +16,7 @@ static char *get_path(char *path)
     getcwd(buffer, 1024);
 
     if (strcmp(path, ".") == 0)
-       return strdup(buffer);
-
+        return strdup(buffer);
 
     tmp = malloc(sizeof(char) * (strlen(buffer) + 2));
     tmp = strcpy(tmp, buffer);
@@ -80,18 +79,15 @@ int main(int ac UNUSED, char **av UNUSED)
 {
     if (ac > 1 && strcmp(av[1], "-help") == 0)
         display_usage();
-//
-//    if (!is_arg_valid(ac, av))
-//        return 84;
 
+    if (!is_arg_valid(ac, av))
+        return 84;
 
     server_t *server = create_server(atoi(av[1]));
     if (!server)
         return 84;
 
-    // TODO: change this
-//    loop(server, get_path(av[2]));
-    loop(server, ".");
+    loop(server, get_path(av[2]));
 
     return 0;
 }
