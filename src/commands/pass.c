@@ -22,7 +22,10 @@ client_t *pass(client_t *client, char **cmd)
         dprintf(client->fd, "530 Already logged in.\r\n");
         return client;
     }
-
+    if (client->user == false) {
+        dprintf(client->fd, "530 Please login with USER and PASS.\r\n");
+        return client;
+    }
     if (count_words(cmd) == 1) {
         dprintf(client->fd, "230 User logged in, proceed.\r\n");
         client->pass = true;

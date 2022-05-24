@@ -9,7 +9,7 @@
 
 client_t *help(client_t *client, char **cmd UNUSED)
 {
-    if (client->pass == false && client->user == false) {
+    if (!is_logged(client)) {
         dprintf(client->fd, "214 Help:\r\nUSER username\r\n");
         dprintf(client->fd, "PASS password\r\n");
         return client;

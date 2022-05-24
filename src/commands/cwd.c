@@ -61,6 +61,11 @@ client_t *cwd(client_t *client, char **cmd)
         return client;
     }
 
+    if (strcmp(client->path, "/") == 0 && strcmp(cmd[1], "..") == 0) {
+        dprintf(client->fd, "550 No such directory.\r\n");
+        return client;
+    }
+
     if (chdir(cmd[1]) == -1) {
         dprintf(client->fd, "550 No such directory.\r\n");
         return client;
