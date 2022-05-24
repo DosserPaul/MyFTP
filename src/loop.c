@@ -18,6 +18,7 @@ static client_t **init_client(char *path)
         client[i]->user = false;
         client[i]->pass = false;
         client[i]->is_closed = false;
+        client[i]->welcome = false;
     }
     return client;
 }

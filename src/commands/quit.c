@@ -13,6 +13,7 @@ client_t *quit(client_t *client, fd_set *master)
     client->path = strdup("/");
     client->pass = false;
     client->user = false;
+    client->welcome = false;
 
     dprintf(client->fd, "221 Goodbye.\r\n");
     close(client->fd);

@@ -56,6 +56,7 @@
         bool pass;
         bool is_closed;
         fd_set master;
+        bool welcome;
     };
 
     struct commands {
